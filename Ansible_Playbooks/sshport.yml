@@ -1,0 +1,32 @@
+---
+- hosts: cluster
+  remote_user: oskerg
+  tasks:
+    - name: ensure docker is latest version
+      apt:
+        name: docker
+        state: latest
+    - name: ensure docker is running and enabled at boot
+      service:
+        name: docker
+        state: started
+        enabled: yes
+    - name: setup alternate SSH port
+      lineinfile:
+        dest: "/etc/ssh/sshd_config"
+        regexp: "^Port"
+        line: "Port 849"
+    - name:  remove pw auth in SSH config
+      lineinfile:
+        dest: "/etc/ssh/sshd_config"
+        regexp: "^PasswordAuthentication"
+        line: "PasswordAuthentication no"
+    - name: remove root login in SSH config
+      lineinfile:
+        dest: "/etc/ssh/sshd_config"
+        regexp: "^PermitRootLogin"
+        line: "PermitRootLogin no"
+    - name: Restart sshd
+      service:
+        name: sshd
+        state: restarted

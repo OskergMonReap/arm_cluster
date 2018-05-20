@@ -1,0 +1,24 @@
+---
+- hosts: cluster
+  remote_user: root
+  tasks:
+    - name: Install dependencies for kubeadm explicitly
+      apt:
+        name: apt-transport-https
+        state: latest
+    - name: Add kubeadm key to apt
+      apt_repository:
+        repo: deb http://apt.kubernetes.io/ kubernetes-xenial main
+        state: present
+    - name: Refresh all packages in prep to install kubeadm
+      apt:
+        update_cache: true
+    - name: Install kubeadm and other k8s packages
+      apt:
+        name: "{{ item }}"
+        update_cache: true
+        state: present
+      with_items:
+        - 'kubelet'
+        - 'kubeadm=1.8.10-00'
+        - 'kubectl'

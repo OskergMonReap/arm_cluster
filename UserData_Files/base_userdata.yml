@@ -1,0 +1,52 @@
+#cloud-config
+# vim: syntax=yaml
+#
+hostname: <insert-node-name-of-choice>
+manage_etc_hosts: true
+
+resize_rootfs: true
+growpart:
+        mode: auto
+        devices: ["/"]
+        ignore_growroot_disabled: false
+
+users:
+        - name: <user-name-of-choice>
+          gecos: "Hypriot Pirate"
+          sudo: ALL=(ALL) NOPASSWD:ALL
+          shell: /bin/bash
+          groups: users,docker,video
+          plain_text_passwd: <this will be disabled during ansible playbook, dealer's choice>
+          lock_passwd: true 
+          ssh_pwauth: true
+          chpasswd: { expire: false }
+          ssh_authorized_keys:
+          - ssh-rsa <insert key details here, if saving to public repo DO NOT PUT THIS HERE. use variable and import from another/local/non-versioned file>
+
+package_update: true
+package_upgrade: true
+package_reboot_if_required: true
+packages:
+        - ntp
+        - vim
+        - python3
+        - python3-pip  
+
+locale: "en_US.UTF-8"
+timezone: "America/New_York"
+
+mounts:
+        - [ /dev/sda1, /mnt, auto, "defaults,noexec" ]
+
+write_files:
+        - path: "/etc/docker/daemon.json"
+          owner: "root:root"
+          content: |
+                  {
+                          "labels": [ "os=linux", "arch=arm64" ],
+                          "experimental": true
+                  }
+
+runcmd:
+        - [ systemctl, restart, avahi-daemon ]
+        - [ systemctl, restart, docker ]
