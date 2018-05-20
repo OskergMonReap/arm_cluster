@@ -1,6 +1,6 @@
 ---
 - hosts: cluster
-  remote_user: oskerg
+  remote_user: <user you created in user-data.yml>
   tasks:
     - name: ensure docker is latest version
       apt:
