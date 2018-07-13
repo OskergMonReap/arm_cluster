@@ -1,0 +1,59 @@
+---
+- hosts: cluster
+  remote_user: root
+  tasks:
+    - name: Refresh all packages to prep for installation 
+      apt:
+        update_cache: true     
+    - name: Install dependencies for some of the Jupyter Python Packages to run properly
+      apt: 
+        name: "{{ item }}"
+        update_cache: true
+        state: present
+      with_items:
+        - 'pandoc'
+        - 'libxm12-dev'
+        - 'libxslt-dev'
+        - 'libblas-dev'
+        - 'liblapack-dev'
+        - 'libatlas-base-dev'
+        - 'gfortran'
+        - 'libtiff5-dev'
+        - 'libjpeg62-turbo-dev'
+        - 'zlib1g-dev'
+        - 'libfreetype6-dev'
+        - 'liblcms2-dev'
+        - 'libwebp-dev'
+        - 'tcl8.5-dev'
+        - 'tk8.5-dev'
+        - 'libharfbuzz-dev'
+        - 'libfribidi-dev'
+        - 'libhdf5-dev'
+        - 'libnetcdf-dev'
+        - 'python3-pip'
+        - 'python3-venv'
+        - 'libzmq3-dev'
+     - name: Install specific dependencies for python-opencv-headless
+       apt:
+         name: "{{ items }}"
+         update_cache: true
+         state: present
+       with_items:
+         - 'libjasper'
+         - 'libjasper-dev'
+         - 'libjpeg-dev'
+         - 'libetiff5-dev'
+         - 'libpng12-dev'
+         - 'libilmbase12'
+         - 'libopenexr22'
+         - 'libgstreamer1.0-0'
+         - 'libavcodec-extra57'
+         - 'libavformat-dev'
+         - 'libilmbase12'
+         - 'libavcodec-dev'
+         - 'libswscale-dev'
+         - 'libv41-dev'
+         - 'libgtk2.0-dev'
+         - 'libgtk-3-dev'
+         - 'libxvidcore-dev'
+         - 'libx264'
