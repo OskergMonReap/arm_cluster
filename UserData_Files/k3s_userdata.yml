@@ -1,6 +1,7 @@
 ---
 # cloud-config
 # vim: syntax=yaml
+#
 hostname: <insert-node-name-of-choice>
 manage_etc_hosts: true
 
@@ -21,7 +22,7 @@ users:
           ssh_pwauth: true
           chpasswd: {expire: false}
           ssh_authorized_keys:
-                  - ssh-rsa <some-key, id_rsa.pub>
+                  - ssh-rsa <insert id_rsa.pub here>
 
 package_update: true
 package_upgrade: true
@@ -31,6 +32,7 @@ packages:
         - vim
         - python3
         - python3-pip
+        - curl
 
 locale: "en_US.UTF-8"
 timezone: "America/New_York"
@@ -43,10 +45,11 @@ write_files:
           owner: "root:root"
           content: |
                   {
-                          "labels": [ "os=linux", "arch=arm64" ],
+                          "labels": ["os=linux", "arch=arm64"],
                           "experimental": true
                   }
 
 runcmd:
         - [systemctl, restart, avahi-daemon]
         - [systemctl, restart, docker]
+        - ['curl -sfL https://get.k3s.io | sh -']

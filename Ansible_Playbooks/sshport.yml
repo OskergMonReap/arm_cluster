@@ -10,13 +10,13 @@
       service:
         name: docker
         state: started
-        enabled: yes
+        enabled: true
     - name: setup alternate SSH port
       lineinfile:
         dest: "/etc/ssh/sshd_config"
         regexp: "^Port"
         line: "Port 849"
-    - name:  remove pw auth in SSH config
+    - name: remove pw auth in SSH config
       lineinfile:
         dest: "/etc/ssh/sshd_config"
         regexp: "^PasswordAuthentication"

@@ -1,6 +1,5 @@
-#cloud-config
-
-# Set your hostname here, the manage_etc_hosts will update the hosts file entries as well
+---
+# cloud-config
 hostname: my_example_host
 manage_etc_hosts: true
 
@@ -14,7 +13,7 @@ users:
     plain_text_passwd: secrets_in_version_control_never
     lock_passwd: false
     ssh_pwauth: true
-    chpasswd: { expire: false }
+    chpasswd: {expire: false}
 
 package_upgrade: false
 

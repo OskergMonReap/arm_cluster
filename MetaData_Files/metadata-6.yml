@@ -1,3 +1,4 @@
+---
 instance-id: iid-worker6-v1
 network-interfaces: |
         iface eth0 inet static
