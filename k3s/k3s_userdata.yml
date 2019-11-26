@@ -18,7 +18,7 @@ users:
           shell: /bin/bash
           groups: users,docker,video
           plain_text_passwd: <some-password>
-          lock_passwd: true
+          lock_passwd: false
           ssh_pwauth: true
           chpasswd: {expire: false}
           ssh_authorized_keys:
